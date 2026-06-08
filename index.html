@@ -1,1 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personal website of Eunhyeok Kim, a Computer Science and Engineering student at Seoul National University.">
+  <title>Eunhyeok Kim</title>
+  <style>
+    :root {
+      --canvas-night: #000000;
+      --canvas-night-soft: #0a0a0a;
+      --canvas-light: #ffffff;
+      --canvas-cool: #f0f0fa;
+      --hairline-on-dark: #3a3a3f;
+      --on-primary: #ffffff;
+      --on-primary-mute: #f0f0fa;
+      --ink: #000000;
+      --ink-mute: #5a5a5f;
+      --max-width: 1200px;
+      --font-display: "D-DIN-Bold", "Arial Narrow", Arial, Verdana, sans-serif;
+      --font-body: "D-DIN", Arial, Verdana, sans-serif;
+    }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--canvas-night);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--canvas-night);
+      color: var(--on-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--on-primary);
+      text-underline-offset: 0.2em;
+    }
+
+    a:focus-visible,
+    input:focus-visible + .menu-button {
+      outline: 2px solid var(--canvas-light);
+      outline-offset: 4px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    a,
+    li,
+    td,
+    th {
+      overflow-wrap: anywhere;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 50;
+      transform: translateY(-200%);
+      border: 1px solid var(--canvas-light);
+      background: var(--canvas-night);
+      color: var(--on-primary);
+      padding: 0.75rem 1rem;
+      text-transform: uppercase;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .visually-hidden,
+    .nav-toggle {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+      padding: 0;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(58, 58, 63, 0.58);
+      background: rgba(0, 0, 0, 0.72);
+    }
+
+    .nav {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      color: var(--on-primary);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      border-bottom: 1px solid transparent;
+      color: var(--on-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      line-height: 0.94;
+      padding: 0.35rem 0;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      border-bottom-color: var(--on-primary);
+    }
+
+    main {
+      width: 100%;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      min-height: 92vh;
+      overflow: hidden;
+      background: var(--canvas-night);
+      border-bottom: 1px solid var(--hairline-on-dark);
+    }
+
+    .hero-inner,
+    .section-inner {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      padding-inline: 2rem;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+      align-items: center;
+      gap: 4rem;
+      padding-top: 10rem;
+      padding-bottom: 7rem;
+    }
+
+    .hero-copy {
+      max-width: 670px;
+    }
+
+    .hero-visual {
+      justify-self: end;
+      width: min(100%, 260px);
+      margin: 0;
+      border: 1px solid var(--hairline-on-dark);
+      border-radius: 4px;
+      background: var(--canvas-night-soft);
+      overflow: hidden;
+    }
+
+    .hero-visual img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      filter: brightness(0.82) saturate(0.85);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.75rem;
+      color: var(--on-primary-mute);
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 2;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 5rem;
+      line-height: 0.95;
+    }
+
+    .lead {
+      max-width: 620px;
+      margin: 1.5rem 0 0;
+      color: var(--on-primary-mute);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      border: 1px solid var(--canvas-light);
+      border-radius: 32px;
+      background: transparent;
+      color: var(--on-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      line-height: 0.94;
+      padding: 1.125rem 1.5rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      background: var(--canvas-cool);
+      color: var(--ink);
+    }
+
+    .content-band {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid var(--hairline-on-dark);
+      background: var(--canvas-night);
+      scroll-margin-top: 92px;
+    }
+
+    .content-band:nth-of-type(odd) {
+      background: var(--canvas-night-soft);
+    }
+
+    .section-inner {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+
+    h2 {
+      font-size: 3.75rem;
+      line-height: 1.05;
+    }
+
+    .section-content {
+      max-width: 780px;
+    }
+
+    .section-content > p:first-child {
+      margin-top: 0;
+    }
+
+    .muted {
+      color: var(--on-primary-mute);
+    }
+
+    .detail-list {
+      display: grid;
+      margin: 1.5rem 0 0;
+      padding: 0;
+      border-top: 1px solid var(--hairline-on-dark);
+    }
+
+    .detail-list div {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.35fr) minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--hairline-on-dark);
+    }
+
+    .detail-list dt {
+      color: var(--on-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .detail-list dd {
+      margin: 0;
+      color: var(--on-primary-mute);
+    }
+
+    .project-list {
+      display: grid;
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--hairline-on-dark);
+    }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.4fr) minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--hairline-on-dark);
+    }
+
+    .project-item h3 {
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+
+    .project-item p {
+      margin: 0;
+      color: var(--on-primary-mute);
+    }
+
+    .plan-block {
+      margin-top: 2rem;
+    }
+
+    .plan-block:first-of-type {
+      margin-top: 1.5rem;
+    }
+
+    .plan-block h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .plan-list {
+      display: grid;
+      border-top: 1px solid var(--hairline-on-dark);
+    }
+
+    .plan-term {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.36fr) minmax(0, 1fr);
+      gap: 2rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--hairline-on-dark);
+    }
+
+    .plan-term h4 {
+      margin: 0;
+      color: var(--on-primary);
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .plan-term p {
+      margin: 0;
+      color: var(--on-primary-mute);
+    }
+
+    .list {
+      display: grid;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--hairline-on-dark);
+    }
+
+    .list li {
+      border-bottom: 1px solid var(--hairline-on-dark);
+      padding: 1rem 0;
+      text-transform: uppercase;
+    }
+
+    .contact-list {
+      display: grid;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--hairline-on-dark);
+    }
+
+    .contact-list li {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--hairline-on-dark);
+    }
+
+    .contact-list span {
+      display: inline-block;
+      min-width: 4.5rem;
+      color: var(--on-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    code {
+      font-family: var(--font-body);
+      color: var(--on-primary);
+    }
+
+    .usage-table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: collapse;
+      border-top: 1px solid var(--hairline-on-dark);
+    }
+
+    .usage-table th,
+    .usage-table td {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--hairline-on-dark);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .usage-table th {
+      width: 11rem;
+      color: var(--on-primary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .usage-table td {
+      color: var(--on-primary-mute);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--hairline-on-dark);
+      background: var(--canvas-night);
+      color: var(--on-primary-mute);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .site-footer small {
+      font-size: 0.8125rem;
+    }
+
+    @media (max-width: 900px) {
+      h1 {
+        font-size: 3.75rem;
+      }
+
+      h2 {
+        font-size: 2.75rem;
+      }
+
+      .nav {
+        padding: 1.125rem 1.25rem;
+      }
+
+      .menu-button {
+        display: inline-flex;
+        flex: 0 0 auto;
+        position: relative;
+        width: 2.75rem;
+        height: 2.75rem;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--canvas-light);
+        border-radius: 9999px;
+        background: var(--canvas-night);
+        cursor: pointer;
+        z-index: 2;
+      }
+
+      .menu-icon,
+      .menu-icon::before,
+      .menu-icon::after {
+        display: block;
+        width: 1.1rem;
+        height: 2px;
+        background: var(--canvas-light);
+        content: "";
+      }
+
+      .menu-icon {
+        position: relative;
+      }
+
+      .menu-icon::before,
+      .menu-icon::after {
+        position: absolute;
+        left: 0;
+      }
+
+      .menu-icon::before {
+        top: -0.38rem;
+      }
+
+      .menu-icon::after {
+        top: 0.38rem;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: 1.25rem;
+        display: none;
+        width: min(20rem, calc(100vw - 2.5rem));
+        padding: 1rem;
+        border: 1px solid var(--hairline-on-dark);
+        background: var(--canvas-night);
+      }
+
+      .nav-toggle:checked ~ .nav-links {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .nav-links a {
+        padding: 0.45rem 0;
+      }
+
+      .hero-inner {
+        padding: 8rem 1.25rem 5rem;
+      }
+
+      .section-inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 5rem 1.25rem;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-visual {
+        justify-self: start;
+        width: 9rem;
+      }
+
+      .detail-list div {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+
+      .project-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .plan-term {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+    }
+
+    @media (min-width: 901px) {
+      .menu-button {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 2.25rem;
+      }
+
+      .hero-inner {
+        padding-bottom: 4rem;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .contact-list li {
+        display: grid;
+        gap: 0.25rem;
+      }
+
+      .contact-list span {
+        min-width: 0;
+      }
+
+      .usage-table,
+      .usage-table tbody,
+      .usage-table tr,
+      .usage-table th,
+      .usage-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .usage-table th {
+        border-bottom: 0;
+        padding-bottom: 0.25rem;
+      }
+
+      .usage-table td {
+        padding-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#main">Eunhyeok Kim</a>
+      <input class="nav-toggle" id="nav-toggle" type="checkbox" aria-label="Toggle navigation menu">
+      <label class="menu-button" for="nav-toggle">
+        <span class="menu-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Menu</span>
+      </label>
+      <ul class="nav-links">
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#cv">CV / Resume</a></li>
+        <li><a href="#courses">Planned Courses</a></li>
+        <li><a href="#ai-usage">AI Usage</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="intro-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Computer Science and Engineering</p>
+          <h1 id="intro-title">Eunhyeok Kim</h1>
+          <p class="lead">
+            I am a Computer Science and Engineering student at Seoul National University focused on implementation-level
+            problem solving, frontend development, interactive systems, digital logic, debugging, and Git-based workflows.
+          </p>
+          <div class="hero-actions" aria-label="Profile links">
+            <a class="button" href="#projects">View Projects</a>
+            <a class="button" href="assets/CV.pdf">Download CV</a>
+          </div>
+        </div>
+        <figure class="hero-visual">
+          <img src="assets/profile.jpg" alt="Profile icon for Eunhyeok Kim">
+        </figure>
+      </div>
+    </section>
+
+    <section class="content-band" id="about" aria-labelledby="about-title">
+      <div class="section-inner">
+        <h2 id="about-title">About Me</h2>
+        <div class="section-content">
+          <p>
+            I study Computer Science and Engineering at Seoul National University and work across C, C++, Java, C#,
+            Python, Verilog, web technologies, and Unity/C#.
+          </p>
+          <p class="muted">
+            My interests connect software engineering, game development, frontend interfaces, interactive systems,
+            digital logic, and structured technical documentation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="projects" aria-labelledby="projects-title">
+      <div class="section-inner">
+        <h2 id="projects-title">Projects</h2>
+        <div class="section-content">
+          <p class="muted">Selected projects and creative directions.</p>
+          <div class="project-list">
+            <article class="project-item">
+              <h3>Poker Web Prototype</h3>
+              <p>Browser-based poker prototype focused on interaction flow, state handling, UI behavior, and JavaScript logic.</p>
+            </article>
+            <article class="project-item">
+              <h3>The Revelation</h3>
+              <p>2D side-scrolling hack-and-slash roguelike game project.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="contact" aria-labelledby="contact-title">
+      <div class="section-inner">
+        <h2 id="contact-title">Contact</h2>
+        <div class="section-content">
+          <p class="muted">For project discussions, collaboration, or questions, contact me through email or GitHub.</p>
+          <ul class="contact-list">
+            <li><span>Email</span><a href="mailto:eunhyeok1106@gmail.com">eunhyeok1106@gmail.com</a></li>
+            <li><span>GitHub</span><a href="https://github.com/eunhyeok06">github.com/eunhyeok06</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="cv" aria-labelledby="cv-title">
+      <div class="section-inner">
+        <h2 id="cv-title">CV / Resume</h2>
+        <div class="section-content">
+          <p>
+            The full CV is available as a PDF in this repository.
+          </p>
+          <div class="button-row" aria-label="CV download">
+            <a class="button" href="assets/CV.pdf">Open CV PDF</a>
+          </div>
+          <dl class="detail-list">
+            <div>
+              <dt>Education</dt>
+              <dd>Seoul National University, B.S. in Computer Science and Engineering, in progress.</dd>
+            </div>
+            <div>
+              <dt>Technical Skills</dt>
+              <dd>C, C++, Java, C#, Python, Verilog, HTML, CSS, JavaScript, Unity/C#, Git, GitHub, VS Code, Visual Studio, CLion, IntelliJ IDEA, Replit, and npm.</dd>
+            </div>
+            <div>
+              <dt>Experience</dt>
+              <dd>Static web development with GitHub Pages, browser-based JavaScript prototyping, Unity/C# interactive systems, and repository documentation workflows.</dd>
+            </div>
+            <div>
+              <dt>Relevant Areas</dt>
+              <dd>Programming, object-oriented programming, web development, Unity/C# interactive development, data structures and algorithms, digital logic, Verilog, discrete mathematics, calculus, statistics, probability, and Git-based workflow.</dd>
+            </div>
+            <div>
+              <dt>Languages</dt>
+              <dd>Korean native; English professional and academic working proficiency; Spanish conversational; Chinese basic conversational.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="courses" aria-labelledby="courses-title">
+      <div class="section-inner">
+        <h2 id="courses-title">Planned Courses</h2>
+        <div class="section-content">
+          <p class="muted">
+            My planned studies are organized around broad directions rather than a public detailed timeline.
+            I want to grow as a developer who can understand systems, build interactive software, and connect technical
+            implementation with creative and product decisions.
+          </p>
+
+          <div class="plan-block">
+            <h3>Study Direction</h3>
+            <div class="plan-list">
+              <article class="plan-term">
+                <h4>Computer Science Core</h4>
+                <p>Strengthen problem solving, programming discipline, computational thinking, and the ability to reason about complex software.</p>
+              </article>
+              <article class="plan-term">
+                <h4>Software Engineering</h4>
+                <p>Study how reliable programs are designed, implemented, debugged, documented, and improved over time.</p>
+              </article>
+              <article class="plan-term">
+                <h4>Interactive Media</h4>
+                <p>Explore how games, interfaces, and interactive systems create meaningful user experiences.</p>
+              </article>
+              <article class="plan-term">
+                <h4>Product Thinking</h4>
+                <p>Connect technical work with user needs, planning, communication, and sustainable project direction.</p>
+              </article>
+              <article class="plan-term">
+                <h4>Communication</h4>
+                <p>Practice explaining ideas clearly through writing, presentation, portfolio materials, and collaboration.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="ai-usage" aria-labelledby="ai-usage-title">
+      <div class="section-inner">
+        <h2 id="ai-usage-title">AI Usage</h2>
+        <div class="section-content">
+          <p class="muted">Disclosure of AI assistance used to create this website.</p>
+          <table class="usage-table">
+            <tbody>
+              <tr>
+                <th scope="row">Tool</th>
+                <td>Codex</td>
+              </tr>
+              <tr>
+                <th scope="row">Prompt</th>
+                <td>Build a static personal website in the repo root. Make the page responsive and accessible.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>&copy; 2026 Eunhyeok Kim. Built for GitHub Pages.</small>
+  </footer>
+</body>
+</html>
