@@ -344,13 +344,15 @@
       color: var(--on-primary-mute);
     }
 
-    .project-list {
+    .project-list,
+    .activity-list {
       display: grid;
       margin-top: 1.5rem;
       border-top: 1px solid var(--hairline-on-dark);
     }
 
-    .project-item {
+    .project-item,
+    .activity-item {
       display: grid;
       grid-template-columns: minmax(150px, 0.4fr) minmax(0, 1fr);
       gap: 2rem;
@@ -358,12 +360,14 @@
       border-bottom: 1px solid var(--hairline-on-dark);
     }
 
-    .project-item h3 {
+    .project-item h3,
+    .activity-item h3 {
       font-size: 1.5rem;
       line-height: 1.25;
     }
 
-    .project-item p {
+    .project-item p,
+    .activity-item p {
       margin: 0;
       color: var(--on-primary-mute);
     }
@@ -607,7 +611,8 @@
         gap: 0.35rem;
       }
 
-      .project-item {
+      .project-item,
+      .activity-item {
         grid-template-columns: 1fr;
         gap: 0.5rem;
       }
@@ -684,6 +689,7 @@
       <ul class="nav-links">
         <li><a href="#about">About Me</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#activities">Activities</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#cv">CV / Resume</a></li>
         <li><a href="#courses">Planned Courses</a></li>
@@ -742,6 +748,25 @@
             <article class="project-item">
               <h3>The Revelation</h3>
               <p>2D side-scrolling hack-and-slash roguelike game project.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="activities" aria-labelledby="activities-title">
+      <div class="section-inner">
+        <h2 id="activities-title">Activities</h2>
+        <div class="section-content">
+          <p class="muted">Selected mentoring and team-based activities.</p>
+          <div class="activity-list">
+            <article class="activity-item">
+              <h3>Korean Language Exchange Mentoring</h3>
+              <p>Mentored international students through Korean language exchange activities, supporting Korean conversation practice and cross-cultural communication.</p>
+            </article>
+            <article class="activity-item">
+              <h3>Student Indie Game Development Team</h3>
+              <p>Participated in a student indie game development project, focusing on planning, programming, and team communication.</p>
             </article>
           </div>
         </div>
